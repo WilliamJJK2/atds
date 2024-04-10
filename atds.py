@@ -422,8 +422,8 @@ class BinaryTree(object):
     def get_root_val(self):
         return self.val
     
-    def set_root_val(self, val):
-        self.val = val
+    def set_root_val(self, new_val):
+        self.val = new_val
 
     def get_left_child(self):
         return self.left_child
