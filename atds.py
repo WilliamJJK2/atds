@@ -446,6 +446,102 @@ class BinaryTree(object):
                ",left_child=" + str(self.left_child) + \
                ",right_child=" + str(self.right_child) + "]"
     
+class Vertex(object):
+
+    def __init__(self, key):
+        self.id = key
+        self.connected_to = {}   # empty dictionary for neighboring vertices
+        self.color = 'white'
+        self.distance = 0
+        self.predecessor = None
+        self.discovery_time = 0     # discovery time
+        self.finish_time = 0        # finish time  
+
+    def add_neighbor(self, neighbor_vertex, weight=0):
+        self.connected_to[neighbor_vertex] = weight
+
+    def set_color(self, color):
+        self.color = color
+
+    def get_color(self):
+        return self.color
+
+    def set_distance(self, distance):
+        self.distance = distance
+
+    def get_distance(self):
+        return self.distance
+
+    def set_pred(self, predecessor):
+        self.predecessor = predecessor
+
+    def get_pred(self):
+        return self.predecessor
+
+    def set_discovery(self, discovery_time):
+        self.discovery_time = discovery_time
+
+    def get_discovery(self):
+        return self.discovery_time
+
+    def set_finish(self, finish_time):
+        self.finish_time = finish_time
+
+    def get_finish(self):
+        return self.finish_time
+
+    def __repr__(self):
+        return 'Vertex[id=' + str(self.id) \
+                + ',color=' + self.color \
+                + ',dist=' + str(self.distance) \
+                + ',pred=' + str(self.predecessor) \
+                + ',disc=' + str(self.discovery_time) \
+                + ',fin=' + str(self.finish_time) \
+            + '] connected_to: ' + str([x.id for x in self.connected_to]) 
+
+    def get_connections(self):
+        return self.connected_to.keys()
+
+    def get_id(self):
+        return self.id
+
+class Graph(object):
+    def __init__(self):
+        self.graph = {}
+
+    def add_vertex(self, key):
+        new_vertex = Vertex(key)
+        self.graph[key] = new_vertex
+        return new_vertex
+
+    def get_vertex(self, key):
+        if key in self.graph.keys():
+            return self.graph[key]
+        else:
+            return None
+
+    def __contains__(self, key):
+        return key in self.graph.keys()
+
+    def add_edge(self, from_key, to_key, weight=0):
+        # if the from_key doesn't yet have a vertex, create it
+        if from_key not in self.get_vertices():
+            self.add_vertex(from_key)
+        # if the to_key doesn't yet have a vertex, create it
+        if to_key not in self.get_vertices():
+            self.add_vertex(to_key)
+        # now we can create the edge between the two
+        self.get_vertex(from_key).add_neighbor(self.get_vertex(to_key), weight)
+
+    def get_vertices(self):
+        return self.graph.keys()
+
+    def __iter__(self):
+        return iter(self.graph.values())
+
+    def get_weight(self, neighbor_vertex):
+        return self.connected_to[neighbor_vertex]
+    
 def main():
     pass
 
